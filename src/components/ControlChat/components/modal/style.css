@@ -1,0 +1,21 @@
+.ql-editor {
+  min-height: 200px;
+  resize: vertical;
+}
+
+.swal2-container {
+  z-index: 1310;
+}
+
+body.swal2-height-auto {
+  height: inherit !important;
+}
+
+.action-Button {
+  overflow-y: none;
+  position: fixed;
+}
+
+.title-form {
+  text-align: center;
+}

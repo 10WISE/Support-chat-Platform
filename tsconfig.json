@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "baseUrl": "./src/",
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "allowJs": true,
+      "strict": true,
+      "strictNullChecks": false,
+      "module": "commonjs",
+      "target": "es6",
+      "jsx": "react",
+      "esModuleInterop": true
+      //   "typeRoots": ["./types", "./node_modules/@types"] // Custom types
+    },
+    "exclude": ["node_modules", "types"] // Ignore from compiler
+  }
