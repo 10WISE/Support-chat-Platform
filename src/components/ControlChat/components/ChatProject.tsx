@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import {Box} from '@mui/material'
-import ConnectHub from 'ConnectHub';
+import connHub from 'connHub';
 import { DateTime } from "luxon";
 import AlertDialog from './modal/AlertDialog';
 import * as _ from 'lodash';
@@ -71,7 +71,7 @@ const ChatProject = (props: ChatProjectProps) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const [showEndConversation, setShowEndConversation] = useState(false);
-  const isConnected = useSelector((state) => state.connectHub.isConnected);
+  const isconned = useSelector((state) => state.connHub.isconned);
   const {
     loggedUser,
     messagesSelectedProject,
@@ -114,7 +114,7 @@ const ChatProject = (props: ChatProjectProps) => {
 
   const sendMessageProject = (type: string, message: string) => {
     if(refWrittenMessage.current.value = '' && message == '') return;
-    if (isConnected) {
+    if (isconned) {
       var now = DateTime.now().toFormat('yyyy-MM-dd T:hh');//moment().format('YYYY-MM-DDTHH:mm:ss');
       const newMessageProject: MessageL = {
         idMessage: '-1',
@@ -139,7 +139,7 @@ const ChatProject = (props: ChatProjectProps) => {
         eliminado: '',
         dateEliminado: null
       };
-      ConnectHub.invoke('HADS_SendMessageGroup', newMessageProject)
+      connHub.invoke('HADS_SendMessageGroup', newMessageProject)
         .done((res) => {
           dispatch(addMessagesSelectedProject(newMessageProject));
           refWrittenMessage.current.value = '';
@@ -211,7 +211,7 @@ const ChatProject = (props: ChatProjectProps) => {
         formData.append('idBpm', loggedUser.userInfo.idUser);
         formData.append('description', '_s');
 
-        const data = await http.PostConnect(`Upload`, formData);
+        const data = await http.Postconn(`Upload`, formData);
 
         if (Array.isArray(data)) {
           setDragOver(false);
@@ -255,10 +255,10 @@ const ChatProject = (props: ChatProjectProps) => {
   };
 
   useEffect(() => {
-    if (isConnected) {
+    if (isconned) {
       if (page != null) {
         try {
-          ConnectHub.invoke(
+          connHub.invoke(
             'GetConversationMessagesProject',
             ticketSelectedProject.conversation.idConversation,
             page.pos
@@ -289,7 +289,7 @@ const ChatProject = (props: ChatProjectProps) => {
         }
       }
     }
-  }, [page, isConnected]);
+  }, [page, isconned]);
 
   useEffect(() => {
     try {
@@ -497,7 +497,7 @@ const ChatProject = (props: ChatProjectProps) => {
                       (refWrittenMessage.current.value = e.target.value)
                     }
                     onKeyDown={(e) => {
-                      if(!isConnected){
+                      if(!isconned){
                         setOpenModalAlert(true);
                       }else{
                         const keyShift = e.shiftKey;

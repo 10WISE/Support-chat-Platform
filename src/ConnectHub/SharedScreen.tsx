@@ -4,7 +4,7 @@ import {
   ThemeProvider
 } from '@mui/styles';
 import {createTheme} from '@mui/material'
-import ConnectHub from 'ConnectHub';
+import connHub from 'connHub';
 import { MessageShareScreen } from 'utils/HADSObjectsLocal';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
@@ -69,7 +69,7 @@ const PaperComponent = (props: any) => {
   );
 };
 
-let localConnection: RTCPeerConnection;
+let localconnion: RTCPeerconnion;
 let idCallee: string;
 let onCall: boolean;
 
@@ -88,7 +88,7 @@ const SharedScreen = () => {
   const refElement = React.useRef(null);
   const refDialog = React.useRef(null);
 
-  const isConnected = useSelector((state) => state.connectHub.isConnected);
+  const isconned = useSelector((state) => state.connHub.isconned);
 
   React.useEffect(() => {
     const cbHADS_ShareScreen = (data: any, sender: string) => {
@@ -104,7 +104,7 @@ const SharedScreen = () => {
           },
         ],
       };
-      localConnection = new RTCPeerConnection(configuration);
+      localconnion = new RTCPeerconnion(configuration);
       setDataMessage(data);
       setSender(sender);
 
@@ -119,23 +119,23 @@ const SharedScreen = () => {
       setCloseFab(false);
     };
 
-    if (isConnected) {
-      ConnectHub.on('HADS_ShareScreen', cbHADS_ShareScreen);
-      ConnectHub.on('HADS_EndShared', cbHADS_EndShared);
+    if (isconned) {
+      connHub.on('HADS_ShareScreen', cbHADS_ShareScreen);
+      connHub.on('HADS_EndShared', cbHADS_EndShared);
     }
     return () => {
-      ConnectHub.off('HADS_ShareScreen', cbHADS_ShareScreen);
-      ConnectHub.off('HADS_EndShared', cbHADS_EndShared);
+      connHub.off('HADS_ShareScreen', cbHADS_ShareScreen);
+      connHub.off('HADS_EndShared', cbHADS_EndShared);
     };
-  }, [isConnected]);
+  }, [isconned]);
 
   React.useEffect(() => {
     const cbOnCandidate = (candidate: any) => {
-      localConnection.addIceCandidate(new RTCIceCandidate(candidate));
+      localconnion.addIceCandidate(new RTCIceCandidate(candidate));
     };
-    ConnectHub.on('onCandidate', cbOnCandidate);
+    connHub.on('onCandidate', cbOnCandidate);
     return () => {
-      ConnectHub.off('onCandidate', cbOnCandidate);
+      connHub.off('onCandidate', cbOnCandidate);
     };
   }, []);
 
@@ -146,18 +146,18 @@ const SharedScreen = () => {
 
       onCall = true;
 
-      localConnection.setRemoteDescription(new RTCSessionDescription(offer));
+      localconnion.setRemoteDescription(new RTCSessionDescription(offer));
 
-      localConnection
+      localconnion
         .createAnswer()
         .then((answer) => {
-          return localConnection.setLocalDescription(answer);
+          return localconnion.setLocalDescription(answer);
         })
         .then(() => {
-          ConnectHub.invoke(
+          connHub.invoke(
             'sendAnswer',
             sender,
-            localConnection.localDescription
+            localconnion.localDescription
           ).fail((err) => {
             console.error(err);
           });
@@ -166,18 +166,18 @@ const SharedScreen = () => {
           console.error(err, 'sendAnswer');
         });
     };
-    ConnectHub.on('onOffer', cb);
+    connHub.on('onOffer', cb);
 
     return () => {
-      ConnectHub.off('onOffer', cb);
+      connHub.off('onOffer', cb);
     };
   }, []);
 
   React.useEffect(() => {
-    if (localConnection) {
-      localConnection.onicecandidateerror = (event) => {};
+    if (localconnion) {
+      localconnion.onicecandidateerror = (event) => {};
       // Acá esta la respuesta magica de WebRTC
-      localConnection.ontrack = (event) => {
+      localconnion.ontrack = (event) => {
         setProgress(false);
         setCloseFab(true);
         setOpenModal(true);
@@ -190,9 +190,9 @@ const SharedScreen = () => {
         ) {}
       };
 
-      localConnection.onicecandidate = (evt) => {
+      localconnion.onicecandidate = (evt) => {
         if (evt.candidate) {
-          ConnectHub.invoke('sendCandidate', sender, evt.candidate).fail(
+          connHub.invoke('sendCandidate', sender, evt.candidate).fail(
             (err) => {
               console.error(err, 'sendCandidate');
             }
@@ -200,15 +200,15 @@ const SharedScreen = () => {
         }
       };
 
-      localConnection.oniceconnectionstatechange = (event: any) => {
-        if (event.currentTarget.iceConnectionState == 'disconnected') {
+      localconnion.oniceconnionstatechange = (event: any) => {
+        if (event.currentTarget.iceconnionState == 'disconned') {
           dispatch(setShareOnline(null));
           setOpenModal(false);
           setCloseFab(false);
         }
       };
     }
-  }, [isConnected, sender, localConnection]);
+  }, [isconned, sender, localconnion]);
 
   const handleConfirm = async () => {
     setProgress(true);
@@ -217,7 +217,7 @@ const SharedScreen = () => {
       value: true,
       m: dataMessage.idConversation,
     };
-    ConnectHub.invoke('SendMessage', sender, obj)
+    connHub.invoke('SendMessage', sender, obj)
       .done((res) => {})
       .catch((err) => {
         console.error('se estalló', err);
@@ -233,7 +233,7 @@ const SharedScreen = () => {
     };
     setConfirmOpen(false);
 
-    ConnectHub.invoke('SendMessage', sender, obj)
+    connHub.invoke('SendMessage', sender, obj)
       .done((res) => {})
       .catch((err) => {
         console.error('se estalló', err);
@@ -242,7 +242,7 @@ const SharedScreen = () => {
 
   const handleEndScreen = () => {
     setProgress(true);
-    ConnectHub.invoke('hangup', dataMessage.idConversation, 'int')
+    connHub.invoke('hangup', dataMessage.idConversation, 'int')
       .done((res) => {
         setCloseFab(false);
         setProgress(false);

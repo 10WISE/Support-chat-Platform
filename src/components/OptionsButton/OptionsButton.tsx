@@ -29,7 +29,7 @@ interface OptionsButtonprops {}
 const OptionsButton = (props: OptionsButtonprops) => {
   const moreRef = useRef(null);
   const [openMenu, setOpenMenu] = useState(false);
-  const isConnected = useSelector((state) => state.connectHub.isConnected);
+  const isconned = useSelector((state) => state.connHub.isconned);
 
   const [openModalFinish, setOpenModalFinish] = useState(false);
   const [openModalAddBug, setOpenModalAddBug] = useState(false);
@@ -46,7 +46,7 @@ const OptionsButton = (props: OptionsButtonprops) => {
   React.useEffect(() => {}, [ticketSelected.idBug]);
 
   const handleMenuOpen = () => {
-    if (isConnected) {
+    if (isconned) {
       setOpenMenu(true);
     } else {
       setOpenModalAlert(true);

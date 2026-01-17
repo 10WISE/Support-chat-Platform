@@ -1,25 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface ConnectHubState {
-  isConnected: boolean;
+export interface connHubState {
+  isconned: boolean;
 }
 
-const initialState: ConnectHubState = {
-  isConnected: false,
+const initialState: connHubState = {
+  isconned: false,
 };
 
-const connectHubSlice = createSlice({
-  name: 'connectHub',
+const connHubSlice = createSlice({
+  name: 'connHub',
   initialState,
   reducers: {
-    setIsConnected: (state, { payload }) => {
-      state.isConnected = payload;
+    setIsconned: (state, { payload }) => {
+      state.isconned = payload;
     },
   },
 });
 
-export const { setIsConnected } = connectHubSlice.actions;
+export const { setIsconned } = connHubSlice.actions;
 
-export const connectHubReducer = connectHubSlice.reducer;
+export const connHubReducer = connHubSlice.reducer;
 
 

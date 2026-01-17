@@ -1,5 +1,5 @@
 import _axios from '../api/AxiosConfig';
-import _axios_ from '../api/AxiosConfigConnect';
+import _axios_ from '../api/AxiosConfigconn';
 import https from 'mixins/https';
 
 const dataToFile = (file: any, filename: string, mime: string) => {
@@ -16,7 +16,7 @@ const getFile2Copy = async (ev: any, loggedUser: any, ticketSelected: any) => {
   let currentFile = ev.dataTransfer.getData('text');
   let nameFile = ev.dataTransfer.getData('name');
   if (currentFile) {
-    const file = await https.GetConnect(`copy_file`, {
+    const file = await https.Getconn(`copy_file`, {
       name: currentFile,
     });
     if (file.code == '1') {
@@ -35,7 +35,7 @@ const getFile2Copy = async (ev: any, loggedUser: any, ticketSelected: any) => {
     formData.append('meeting', ticketSelected?.conversation?.idConversation);
     formData.append('idBpm', loggedUser.userInfo.idUser);
     formData.append('description', '_s');
-    const data = await https.PostConnect(`Upload`, formData);
+    const data = await https.Postconn(`Upload`, formData);
     return data;
   }
 };

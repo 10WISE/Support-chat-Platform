@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import {Button, IconButton, Tooltip } from '@mui/material';
 
 import { store } from 'index';
-import { setIsConnected } from 'slices/connectHub';
+import { setIsconned } from 'slices/connHub';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 
 import {
@@ -34,12 +34,12 @@ export default function CustomizedSwitches() {
   const dispatch = useDispatch();
 
   const { loggedUser, ticketSelected } = useSelector((state) => state.app);
-  const isConnected = useSelector((state) => state.connectHub.isConnected);
+  const isconned = useSelector((state) => state.connHub.isconned);
   const [openModalAlert, setOpenModalAlert] = useState(false);
 
   let background = '';
 
-  if (!isConnected) {
+  if (!isconned) {
     background = 'orange';
   } else if (state.checkedC == true) {
     background = '#209B23';
@@ -48,9 +48,9 @@ export default function CustomizedSwitches() {
   }
 
   useEffect(() => {
-    if (isConnected) {
+    if (isconned) {
       if (loggedUser.userInfo.idUser == undefined) {
-        store.dispatch(setIsConnected(false));
+        store.dispatch(setIsconned(false));
       } else {
         window.onbeforeunload = (res: any) => {
           alert('desmotado ventana');
@@ -60,7 +60,7 @@ export default function CustomizedSwitches() {
         window.onbeforeunload = null;
       };
     }
-  }, [isConnected]);
+  }, [isconned]);
 
   const PauseSupport = async () => {
     try {
@@ -72,7 +72,7 @@ export default function CustomizedSwitches() {
           InOrdenTrabajoIdProy: ticketSelected.idTicket,
           InUsuarioCedula: loggedUser.userInfo.documentId,
         };
-        await http.PostConnect(`AsignadorUniversal/Pausar`, obj);
+        await http.Postconn(`AsignadorUniversal/Pausar`, obj);
         dispatch(setTicketSelected(undefined));
         dispatch(setMeetingSelected(''));
         dispatch(setLoadingWait(false));
@@ -111,7 +111,7 @@ export default function CustomizedSwitches() {
         hidden={true}
         id={'btn_6453'}
         onClick={(e: any) => {
-          store.dispatch(setIsConnected(false));
+          store.dispatch(setIsconned(false));
         }}
         color="primary"
       >
@@ -167,7 +167,7 @@ export default function CustomizedSwitches() {
         }}
         key={1}
       >
-        {isConnected
+        {isconned
           ? state.checkedC == true
             ? 'Disponible'
             : 'No disponible'
@@ -182,7 +182,7 @@ export default function CustomizedSwitches() {
         }
       />
       {/* {loggedUser && (
-        <MotiveDisconnection
+        <MotiveDisconnion
           open={openModalMotive}
           setOpenModal={setOpenModalMotive}
           signed={signed}

@@ -9,7 +9,7 @@ import {
   setLoadingWait,
 } from 'slices/app';
 import { useSelector } from 'slices';
-import ConnectHub from 'ConnectHub';
+import connHub from 'connHub';
 import * as _ from 'lodash';
 import { Box, Theme } from '@mui/material'
 import AlertDialog from '../../ControlChat/components/modal/AlertDialog';
@@ -63,7 +63,7 @@ export const UserTickets = (props: UserTicketsProps) => {
     ticketsNew,
     shareOnline,
   } = useSelector((state) => state.app);
-  const isConnected = useSelector((state) => state.connectHub.isConnected);
+  const isconned = useSelector((state) => state.connHub.isconned);
   const [openModalAlert, setOpenModalAlert] = useState(false);
   const [posBefore, setPosBefore] = useState({
     pos: -1,
@@ -75,7 +75,7 @@ export const UserTickets = (props: UserTicketsProps) => {
   };
 
   const handleReadByHADS = (tk: any) => {
-    ConnectHub.invoke(
+    connHub.invoke(
       'ReadByHADS',
       tk.idConversation,
       loggedUser.userInfo.idUser
@@ -99,7 +99,7 @@ export const UserTickets = (props: UserTicketsProps) => {
   const setSelectedSupport = async (i: number, ticket: TicketL) => {
     try {
       window.createLoadingHADS();
-      const { data } = await http.GetConnect(`conversation/get_messages`, {
+      const { data } = await http.Getconn(`conversation/get_messages`, {
         idConversation: ticket.conversation.idConversation,
         page: 0,
       });
@@ -136,7 +136,7 @@ export const UserTickets = (props: UserTicketsProps) => {
       });
       dispatch(removeTicketsNew(pos));
     }
-    if (isConnected) {
+    if (isconned) {
       if (
         ticket.conversation.idConversation ==
         ticketSelected?.conversation?.idConversation
@@ -196,7 +196,7 @@ export const UserTickets = (props: UserTicketsProps) => {
         InUsuarioCedula: loggedUser.userInfo.documentId,
         idSophia: loggedUser.userInfo.idUser,
       };
-      res = await http.PostConnect(`AsignadorUniversal/Activar`, obj);
+      res = await http.Postconn(`AsignadorUniversal/Activar`, obj);
     } catch (error) {
       Swal.fire({
         title: 'Atencion¡',
@@ -220,7 +220,7 @@ export const UserTickets = (props: UserTicketsProps) => {
         InOrdenTrabajoIdProy: ticket?.idTicket,
         InUsuarioCedula: loggedUser.userInfo.documentId,
       };
-      res = await http.PostConnect(`AsignadorUniversal/Pausar`, obj);
+      res = await http.Postconn(`AsignadorUniversal/Pausar`, obj);
     } catch (error) {
       Swal.fire({
         title: 'Atencion¡',

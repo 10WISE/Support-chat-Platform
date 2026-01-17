@@ -34,7 +34,7 @@ interface AddStickyNotesDialogProps {
   hasProfile: any;
 }
 
-declare const CONNECT_HUB_URL: any;
+declare const conn_HUB_URL: any;
 
 const AddStickyNotes = (props: AddStickyNotesDialogProps) => {
   const dispatch = useDispatch();

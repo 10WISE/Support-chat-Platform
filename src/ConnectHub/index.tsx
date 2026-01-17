@@ -1,31 +1,31 @@
 import 'signalr';
 import { store } from 'index';
-import { setIsConnected } from 'slices/connectHub';
+import { setIsconned } from 'slices/connHub';
 import { setLoggedUser, setTimeAns } from 'slices/app';
 import * as _ from 'lodash';
 import { setLoadingWait } from 'slices/app';
 
 declare const window: any;
-declare const CONNECT_HUB_SIGNALR_URL: any;
+declare const conn_HUB_SIGNALR_URL: any;
 
-let connection = $.hubConnection(CONNECT_HUB_SIGNALR_URL, {
+let connion = $.hubconnion(conn_HUB_SIGNALR_URL, {
   useDefaultPath: false,
 });
 
-window.connection = connection;
-let ConnectHub = connection.createHubProxy('connectHub');
+window.connion = connion;
+let connHub = connion.createHubProxy('connHub');
 
-connection.disconnected(() => {
-  store.dispatch(setIsConnected(false));
+connion.disconned(() => {
+  store.dispatch(setIsconned(false));
 });
 
-connection.reconnected(() => {});
+connion.reconned(() => {});
 
-//https://docs.microsoft.com/en-us/aspnet/signalr/overview/guide-to-the-api/hubs-api-guide-javascript-client#establishconnection
+//https://docs.microsoft.com/en-us/aspnet/signalr/overview/guide-to-the-api/hubs-api-guide-javascript-client#establishconnion
 // Es necesario definir un escucha antes de realizar la conexión conection.start();
-ConnectHub.on('initializer', () => {});
+connHub.on('initializer', () => {});
 
-export const signInConnect = (
+export const signInconn = (
   user: string,
   password: string,
   idProd: string,
@@ -33,11 +33,11 @@ export const signInConnect = (
   idApl: string,
   token: string
 ) => {
-  connection
+  connion
     .start({ transport: 'webSockets', pingInterval: 90000 })
     .done(() => {
       store.dispatch(setLoadingWait(true));
-      ConnectHub.invoke(
+      connHub.invoke(
         'HADS_Login',
         user,
         password,
@@ -48,13 +48,13 @@ export const signInConnect = (
       )
         .done((res) => {
           store.dispatch(setLoggedUser(res));
-          store.dispatch(setIsConnected(true));
+          store.dispatch(setIsconned(true));
         })
         .catch((err) => {
           console.error(err);
         });
 
-      ConnectHub.invoke('GetTimeAnsProject')
+      connHub.invoke('GetTimeAnsProject')
         .done((res) => {
           store.dispatch(setTimeAns(res.message));
         })
@@ -67,4 +67,4 @@ export const signInConnect = (
     });
 };
 
-export default ConnectHub;
+export default connHub;

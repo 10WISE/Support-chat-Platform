@@ -5,11 +5,11 @@ import {
 } from 'react-redux';
 
 import { appReducer } from './app';
-import { connectHubReducer } from './connectHub';
+import { connHubReducer } from './connHub';
 
 export const rootReducer = combineReducers({
   app: appReducer,
-  connectHub: connectHubReducer,
+  connHub: connHubReducer,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

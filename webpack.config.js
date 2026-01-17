@@ -21,8 +21,8 @@ module.exports = {
       index: path.resolve(__dirname, 'src/index.tsx'),
       components: path.resolve(__dirname, 'src/components'),
       slices: path.resolve(__dirname, 'src/slices'),
-      Connect: path.resolve(__dirname, 'src/Connect'),
-      ConnectHub: path.resolve(__dirname, 'src/ConnectHub'),
+      conn: path.resolve(__dirname, 'src/conn'),
+      connHub: path.resolve(__dirname, 'src/connHub'),
       utils: path.resolve(__dirname, 'src/utils'),
       views: path.resolve(__dirname, 'src/views'),
       assets: path.resolve(__dirname, 'src/assets'),
@@ -36,10 +36,10 @@ module.exports = {
       filename: 'styleHADS.css',
     }),
     new webpack.DefinePlugin({
-      CONNECT_HUB_SIGNALR_URL: JSON.stringify(
+      conn_HUB_SIGNALR_URL: JSON.stringify(
         'http://localhost:43801/'
       ),
-      CONNECT_HUB_URL: JSON.stringify('http://localhost:43801'),
+      conn_HUB_URL: JSON.stringify('http://localhost:43801'),
       HADS_URL: JSON.stringify('http://localhost:59284/'),
       TOOLS_URL: JSON.stringify('')
     }),

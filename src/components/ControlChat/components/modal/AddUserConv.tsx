@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import ConnectHub from 'ConnectHub';
+import connHub from 'connHub';
 import { useSelector } from 'slices';
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -46,7 +46,7 @@ const AddUserConv = (props: AddUserConvProps) => {
         u: array.toString(),
         d: '',
       };
-      ConnectHub.invoke('EditMeeting', obj).catch((err) => {
+      connHub.invoke('EditMeeting', obj).catch((err) => {
         console.error('se estalló', err);
       });
       dispatch(setLoadingWait(false));

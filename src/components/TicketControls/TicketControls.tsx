@@ -99,7 +99,7 @@ const TicketControls = (props: TicketControlsprops) => {
           InOrdenTrabajoIdProy: ticketSelected.idTicket,
           InUsuarioCedula: loggedUser.userInfo.documentId,
         };
-        await http.PostConnect(`AsignadorUniversal/Pausar`, obj);
+        await http.Postconn(`AsignadorUniversal/Pausar`, obj);
         dispatch(setTicketSelected(undefined));
         dispatch(setMeetingSelected(''));
         window.removeLoadingHADS();

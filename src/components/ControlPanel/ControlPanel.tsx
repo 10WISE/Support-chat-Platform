@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import ConnectHub from 'ConnectHub';
+import connHub from 'connHub';
 import { useDispatch } from 'react-redux';
 import {
   addTicket,
@@ -29,7 +29,7 @@ import { Paper, Typography, Input, Box } from '@mui/material';
 import { MessageL, ProductL, ProjectL, TicketL, TicketL as TicketHADS } from 'utils/HADSObjectsLocal';
 type Ticket = TicketHADS & { color: string };
 import { store } from 'index';
-import { setIsConnected } from 'slices/connectHub';
+import { setIsconned } from 'slices/connHub';
 import AlertDialog from '../ControlChat/components/modal/AlertDialog';
 import ConfirmDialog from 'utils/ConfirmDialog';
 import http from 'mixins/https';
@@ -72,7 +72,7 @@ export const ControlPanel = (props: ControlPanelProps) => {
   const { themeMode } = props;
   const dispatch = useDispatch();
 
-  const isConnected = useSelector((state) => state.connectHub.isConnected);
+  const isconned = useSelector((state) => state.connHub.isconned);
   const {
     tickets,
     ticketSelected,
@@ -252,8 +252,8 @@ export const ControlPanel = (props: ControlPanelProps) => {
     }
   };
 
-  const HADS_Disconnect = (res: any) => {
-    store.dispatch(setIsConnected(false));
+  const HADS_Disconn = (res: any) => {
+    store.dispatch(setIsconned(false));
     setOpenModalAlert(true);
   };
 
@@ -262,8 +262,8 @@ export const ControlPanel = (props: ControlPanelProps) => {
   }, [tickets]);
 
   useEffect(() => {
-    if (isConnected) {
-      ConnectHub.invoke('GetTicketsUser', loggedUser.userInfo.idUser)
+    if (isconned) {
+      connHub.invoke('GetTicketsUser', loggedUser.userInfo.idUser)
         .done((res) => {
           var newTickets = _.map(res, (element) => {
             return _.extend({}, element, { color: '' });
@@ -275,7 +275,7 @@ export const ControlPanel = (props: ControlPanelProps) => {
         });
       getNumerales();
     }
-  }, [isConnected]);
+  }, [isconned]);
 
   const PauseSupport = async () => {
     try {
@@ -287,7 +287,7 @@ export const ControlPanel = (props: ControlPanelProps) => {
           InOrdenTrabajoIdProy: ticketSelected.idTicket,
           InUsuarioCedula: loggedUser.userInfo.documentId,
         };
-        await http.PostConnect(`AsignadorUniversal/Pausar`, obj);
+        await http.Postconn(`AsignadorUniversal/Pausar`, obj);
       }
       dispatch(setTicketSelected(undefined));
       dispatch(setMeetingSelected(''));
@@ -312,7 +312,7 @@ export const ControlPanel = (props: ControlPanelProps) => {
   const getNumerales = async () => {
     if (numerales.length == 0) {
       try {
-        const { data } = await http.GetConnect(`get_numeral`);
+        const { data } = await http.Getconn(`get_numeral`);
         dispatch(setNumerales(data));
       } catch (error) {
         console.log(error);
@@ -416,43 +416,43 @@ export const ControlPanel = (props: ControlPanelProps) => {
   };
 
   useEffect(() => {
-    ConnectHub.on('HADS_RemoveAll', removeAll);
+    connHub.on('HADS_RemoveAll', removeAll);
     return () => {
-      ConnectHub.off('HADS_RemoveAll', removeAll);
+      connHub.off('HADS_RemoveAll', removeAll);
     };
   }, [tickets.length, loggedUser.statistics, messagesFlag]);
 
   useEffect(() => {
-    ConnectHub.on('HADSRemoveTicket', RemoveTicket);
+    connHub.on('HADSRemoveTicket', RemoveTicket);
 
     return () => {
-      ConnectHub.off('HADSRemoveTicket', RemoveTicket);
+      connHub.off('HADSRemoveTicket', RemoveTicket);
     };
   }, [tickets.length, , loggedUser.statistics, messagesFlag]);
 
   useEffect(() => {
-    ConnectHub.on('HADS_NewTicket', NewTicket);
+    connHub.on('HADS_NewTicket', NewTicket);
     return () => {
-      ConnectHub.off('HADS_NewTicket', NewTicket);
+      connHub.off('HADS_NewTicket', NewTicket);
     };
   }, [loggedUser, tickets.length]);
 
   useEffect(() => {
-    ConnectHub.on('HADS_Message', HADS_Message);
+    connHub.on('HADS_Message', HADS_Message);
 
-    ConnectHub.on('ticketQualify', ticketQualified);
+    connHub.on('ticketQualify', ticketQualified);
 
-    //Elimina el escucha del ConnectHub
+    //Elimina el escucha del connHub
     return () => {
-      ConnectHub.off('HADS_Message', HADS_Message);
-      ConnectHub.off('ticketQualify', ticketQualified);
+      connHub.off('HADS_Message', HADS_Message);
+      connHub.off('ticketQualify', ticketQualified);
     };
   }, [tickets, ticketSelected, ticketSelectedProject]);
 
   useEffect(() => {
-    ConnectHub.on('HADS_Disconnect', HADS_Disconnect);
+    connHub.on('HADS_Disconn', HADS_Disconn);
     return () => {
-      ConnectHub.off('HADS_Disconnect', HADS_Disconnect);
+      connHub.off('HADS_Disconn', HADS_Disconn);
     };
   }, [loggedUser, tickets.length]);
 
@@ -635,7 +635,7 @@ export const ControlPanel = (props: ControlPanelProps) => {
           open={openModalAlert}
           setOpenModal={setOpenModalAlert}
           title={'Usuario Desconectado'}
-          message={`Se inició una nueva conexión a Connect desde otra página, solo se puede mantener una conexión 
+          message={`Se inició una nueva conexión a conn desde otra página, solo se puede mantener una conexión 
             en cualquier instante, si desea conectarse desde esta página por favor refrésquela (F5) `}
         />
       )}

@@ -107,14 +107,14 @@ export declare namespace MessageL {
   }
 }
 
-class Connection {
-  connectionId: string;
+class connion {
+  connionId: string;
   server: string;
   ipAddress: string;
-  user: Connection.User;
+  user: connion.User;
 }
 
-namespace Connection {
+namespace connion {
   export class User {
     userInfo: UserInfoL;
   }

@@ -115,7 +115,7 @@ const ConversationMessage = (props: ConversationMessageProps) => {
 
   const updateMessages = async () => {
     try {
-      const { data } = await https.GetConnect(`conversation/get_messages`, {
+      const { data } = await https.Getconn(`conversation/get_messages`, {
         idConversation: ticketSelected.conversation.idConversation,
         page: 0,
       });
@@ -154,7 +154,7 @@ const ConversationMessage = (props: ConversationMessageProps) => {
   const confirmDelete = (message: MessageL) => {
     const fetchData = async () => {
       try {
-        const { data } = await https.PostConnect(`delete_message`, {
+        const { data } = await https.Postconn(`delete_message`, {
           idConversation: message.idConversation,
           idMessage: message.idMessage,
           userElimina: loggedUser.userInfo.idUser,

@@ -3,13 +3,13 @@ import { useEffect, useState, useRef } from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Box, createTheme } from '@mui/material'
-import ConnectHub from 'ConnectHub';
+import connHub from 'connHub';
 import { MessageL } from 'utils/HADSObjectsLocal';
 import * as _ from 'lodash';
 import AlertMessage from 'utils/AlertMessage';
 import AlertDialog from '../ControlChat/components/modal/AlertDialog';
 import UpLoadFile from 'components/global/buttons/UpLoadFile';
-import SharedScreen from 'ConnectHub/SharedScreen';
+import SharedScreen from 'connHub/SharedScreen';
 
 import {
   addMessagesSelected,
@@ -158,7 +158,7 @@ const ControlChatRender = (props: ControlChatRenderProps) => {
   const [dragOver, setDragOver] = useState(false);
 
   const [showEndConversation, setShowEndConversation] = useState(false);
-  const isConnected = useSelector((state) => state.connectHub.isConnected);
+  const isconned = useSelector((state) => state.connHub.isconned);
   const { loggedUser, ticketSelected, messagesSelected, Dragging, numerales } =
     useSelector((state) => state.app);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -226,7 +226,7 @@ const ControlChatRender = (props: ControlChatRenderProps) => {
       });
     } else {
       if (mess == '#notificar' || mess == '#desnotificar') {
-        http.GetConnect(`MarcarNotificacion`, {
+        http.Getconn(`MarcarNotificacion`, {
           id_meeting: ticketSelected?.conversation?.idConversation,
           id_user: loggedUser?.userInfo?.idUser,
           id_soporte: ticketSelected?.idTicket,
@@ -265,7 +265,7 @@ const ControlChatRender = (props: ControlChatRenderProps) => {
     mensaje y luego asignarlo al atributo content del objeto Message.
   */
   const sendMessage = (type: string, message: string) => {
-    if (isConnected) {
+    if (isconned) {
       if (message.charAt(0) === '#') {
         validateCommand(message);
         return;
@@ -295,7 +295,7 @@ const ControlChatRender = (props: ControlChatRenderProps) => {
         eliminado: '',
         dateEliminado: null
       };
-      ConnectHub.invoke('HADS_SendMessage', newMessage)
+      connHub.invoke('HADS_SendMessage', newMessage)
         .done((res) => {
           dispatch(addMessagesSelected(newMessage));
           refWrittenMessage.current.value = '';
@@ -374,7 +374,7 @@ const ControlChatRender = (props: ControlChatRenderProps) => {
         formData.append('meeting', ticketSelected.conversation.idConversation);
         formData.append('idBpm', loggedUser.userInfo.idUser);
         formData.append('description', '_s');
-        const data = await http.PostConnect(`Upload`, formData);
+        const data = await http.Postconn(`Upload`, formData);
         if (Array.isArray(data)) {
           setDragOver(false);
           sendMessage('a', JSON.stringify(data));
@@ -402,7 +402,7 @@ const ControlChatRender = (props: ControlChatRenderProps) => {
     if (0 == e.currentTarget.scrollTop && loading) {
       scrollHeightCurrent = refPaper.current.scrollHeight;
       pageMessage += 10;
-      const { data } = await http.GetConnect(`conversation/get_messages`, {
+      const { data } = await http.Getconn(`conversation/get_messages`, {
         idConversation: ticketSelected?.conversation?.idConversation,
         page: pageMessage,
       });
@@ -693,7 +693,7 @@ const ControlChatRender = (props: ControlChatRenderProps) => {
                     }}
                     inputProps={{ 'aria-label': 'Escriba su mensaje' }}
                     onKeyDown={(e) => {
-                      if(!isConnected){
+                      if(!isconned){
                         setOpenModalAlert(true);
                       }else{
                         const keyShift = e.shiftKey;

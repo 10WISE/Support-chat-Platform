@@ -13,7 +13,7 @@ import {
 } from 'slices/app';
 import { useDispatch } from 'react-redux';
 import * as _ from 'lodash';
-import ConnectHub from 'ConnectHub';
+import connHub from 'connHub';
 
 import { useSelector } from 'slices';
 
@@ -146,7 +146,7 @@ const TreeChatGroups = (props: TreeChatGroupsProps) => {
     ticketSelectedProject,
     ticketSelected
   } = useSelector((state) => state.app);
-  const isConnected = useSelector((state) => state.connectHub.isConnected);
+  const isconned = useSelector((state) => state.connHub.isconned);
 
   const refTree = React.useRef<HTMLInputElement>(null);
 
@@ -173,7 +173,7 @@ const TreeChatGroups = (props: TreeChatGroupsProps) => {
   ]);
 
   const handleClick = (item: ProductL, index: number, i: number) => {
-    if (isConnected) {
+    if (isconned) {
       try {
         if (
           ticketSelectedProject?.conversation.idConversation !=
@@ -214,7 +214,7 @@ const TreeChatGroups = (props: TreeChatGroupsProps) => {
 
   React.useEffect(() => {
     if (ticketSelectedProject != undefined) {
-      ConnectHub.invoke(
+      connHub.invoke(
         'ReadByHADS',
         ticketSelectedProject.conversation.idConversation,
         loggedUser.userInfo.idUser

@@ -4,7 +4,7 @@ import { ControlChat } from 'components/ControlChat';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from 'slices';
-import { signInConnect } from 'ConnectHub';
+import { signInconn } from 'connHub';
 import axios from 'axios';
 import './assets/scss/index.scss';
 
@@ -16,17 +16,17 @@ window.componentEdesk = false;
 window.activeWindow = true;
 
 window.isLoadingHADS = () => {
-  return $('.CN_contentConnectWait').length > 0;
+  return $('.CN_contentconnWait').length > 0;
 }
 window.removeLoadingHADS = () => {
-  $('.CN_contentConnectWait').remove();
+  $('.CN_contentconnWait').remove();
 }
 
 window.createLoadingHADS = () => {
   try {
-    if ($('.CN_contentConnectWait').length > 0) return;
+    if ($('.CN_contentconnWait').length > 0) return;
     let divLoading = document.createElement('div');
-    divLoading.setAttribute('class', 'CN_contentConnectWait');
+    divLoading.setAttribute('class', 'CN_contentconnWait');
     $(divLoading).css({
       opacity: '0.8',
       'z-index': 7000,
@@ -93,8 +93,8 @@ window.creaEspera = (metodo: any, data: any, container: any) => {
   });
 };
 
-window.loginConnect = (usr: string, con: string, tkn: string) => {
-  signInConnect(
+window.loginconn = (usr: string, con: string, tkn: string) => {
+  signInconn(
     usr,
     con,
     sessionStorage.id_prod,

@@ -26,7 +26,7 @@ interface AddBugDialogProps {
   setOpenModalAddBug: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-declare const CONNECT_HUB_URL: any;
+declare const conn_HUB_URL: any;
 
 const AddBugDialog = (props: AddBugDialogProps) => {
   const { open, setOpenModalAddBug } = props;
