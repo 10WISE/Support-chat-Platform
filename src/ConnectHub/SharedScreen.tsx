@@ -95,12 +95,12 @@ const SharedScreen = () => {
       let configuration = {
         iceServers: [
           {
-            urls: ['stun:turn.syc.com.co'],
+            urls: ['stun:turn'],
           },
           {
-            urls: ['turn:turn.syc.com.co:80?transport=tcp'],
-            username: '3b9f5824',
-            credential: '9c36a9958a68',
+            urls: ['turn:turn'],
+            username: '',
+            credential: '',
           },
         ],
       };
