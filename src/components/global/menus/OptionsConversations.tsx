@@ -19,7 +19,6 @@ const StyledMenu = withStyles({
 })((props: MenuProps) => (
   <Menu
     elevation={0}
-    //getcontentanchorel={null}
     anchorOrigin={{
       vertical: 'bottom',
       horizontal: 'center',
@@ -73,7 +72,7 @@ export default function CustomizedMenus(props: CustomizedMenusProps) {
   return (
     <Fragment>
       <Tooltip title="Opciones">
-        <div>
+        <>
           <IconButton
             type="submit"
             aria-label="send"
@@ -103,7 +102,7 @@ export default function CustomizedMenus(props: CustomizedMenusProps) {
               </StyledMenuItemSticky>
             )}
           </StyledMenu>
-        </div>
+        </>
       </Tooltip>
     </Fragment>
   );

@@ -1,5 +1,4 @@
 import _axios from '../api/AxiosConfig';
-import _axios_ from '../api/AxiosConfigconn';
 import https from 'mixins/https';
 
 const dataToFile = (file: any, filename: string, mime: string) => {
